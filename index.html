@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Publications — Or Tuttnauer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:       #f7f5f1;
+  --surface:  #ffffff;
+  --border:   #e4e0d8;
+  --text:     #1c1a17;
+  --muted:    #7a7468;
+  --faint:    #b5b0a6;
+  --accent:   #2b4c7e;
+  --accent2:  #8b5e3c;
+  --q1:       #1a5c38;
+  --q1-bg:    #eaf5ee;
+  --q1-border:#b3ddc2;
+  --q2:       #1a4a6e;
+  --q2-bg:    #e8f0f8;
+  --q2-border:#b3cfe8;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── Layout ── */
+.page-wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+/* ── Header ── */
+.site-header {
+  padding: 48px 0 36px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 40px;
+}
+
+.site-header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 38px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.site-header .subtitle {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+.profile-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.profile-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 7px 14px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  background: var(--surface);
+  transition: all 0.15s;
+}
+.profile-link:hover { border-color: var(--accent); color: var(--accent); }
+.profile-link svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+/* ── H-index card ── */
+.metrics-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.metric-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 22px;
+  min-width: 140px;
+}
+
+.metric-label {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 6px;
+  font-family: 'DM Mono', monospace;
+}
+
+.metric-value {
+  font-family: 'DM Mono', monospace;
+  font-size: 36px;
+  font-weight: 400;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.metric-source {
+  font-size: 11px;
+  color: var(--faint);
+  margin-top: 4px;
+}
+
+.metric-value.loading {
+  font-size: 14px;
+  color: var(--faint);
+  animation: pulse 1.4s infinite;
+  padding-top: 10px;
+}
+
+/* ── Section headers ── */
+.section {
+  margin-bottom: 48px;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--text);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Article entries ── */
+.article {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px 20px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: start;
+}
+.article:last-child { border-bottom: none; }
+
+.article-main { min-width: 0; }
+
+.article-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--text);
+  margin-bottom: 5px;
+}
+
+.article-title a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s;
+}
+.article-title a:hover { border-color: var(--accent); color: var(--accent); }
+
+.article-meta {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.article-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.badge-q1 { background: var(--q1-bg); color: var(--q1); border: 1px solid var(--q1-border); }
+.badge-q2 { background: var(--q2-bg); color: var(--q2); border: 1px solid var(--q2-border); }
+.badge-esci { background: #f5f0e8; color: #7a5a2a; border: 1px solid #d4c0a0; }
+
+.badge-jcr {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--faint);
+  padding: 3px 0;
+}
+
+/* ── Citation widget ── */
+.cit-widget {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 90px;
+  gap: 4px;
+}
+
+.cit-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.cit-label {
+  font-size: 10px;
+  color: var(--faint);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cit-pct {
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  color: var(--muted);
+  text-align: right;
+}
+
+.cit-bar-wrap {
+  width: 80px;
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.cit-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--accent);
+  transition: width 0.6s ease;
+}
+
+.cit-loading {
+  font-size: 11px;
+  color: var(--faint);
+  font-family: 'DM Mono', monospace;
+  animation: pulse 1.4s infinite;
+}
+
+/* ── Other publications (simpler rows) ── */
+.pub-item {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.pub-item:last-child { border-bottom: none; }
+.pub-item a { color: var(--accent); text-decoration: none; }
+.pub-item a:hover { text-decoration: underline; }
+.pub-item strong { color: var(--text); font-weight: 500; }
+.pub-item em { font-style: italic; }
+
+/* ── Footer ── */
+.page-footer {
+  text-align: center;
+  padding: 24px;
+  font-size: 12px;
+  color: var(--faint);
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
+.page-footer a { color: var(--accent); text-decoration: none; }
+.page-footer a:hover { text-decoration: underline; }
+
+/* ── Note banner ── */
+.note-banner {
+  background: #fef8ee;
+  border: 1px solid #f0d898;
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-size: 12.5px;
+  color: #7a5a20;
+  margin-bottom: 28px;
+}
+
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+.fade-in { animation: fadeUp 0.4s ease forwards; }
+
+@media (max-width: 600px) {
+  .article { grid-template-columns: 1fr; }
+  .cit-widget { flex-direction: row; align-items: center; gap: 10px; }
+  .cit-bar-wrap { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- Header -->
+  <header class="site-header">
+    <h1>Or Tuttnauer</h1>
+    <p class="subtitle">Postdoctoral Fellow · Mannheim Centre for European Social Research (MZES), University of Mannheim</p>
+    <div class="profile-links">
+      <a class="profile-link" href="https://orcid.org/0000-0001-7338-3717" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947s-.422.947-.947.947-.946-.431-.946-.947.421-.947.946-.947zm-.722 3.038h1.444v10.041H6.647V7.416zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.016-5.325 5.016h-3.919V7.416zm1.444 1.303v7.444h2.297c3.272 0 3.862-2.203 3.862-3.722 0-2.016-1.116-3.722-3.781-3.722h-2.378z"/></svg>
+        ORCID
+      </a>
+      <a class="profile-link" href="https://scholar.google.com/citations?user=W1PkZGIAAAAJ" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></svg>
+        Google Scholar
+      </a>
+      <a class="profile-link" href="https://www.ortuttnauer.com" target="_blank">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        Website
+      </a>
+    </div>
+  </header>
+
+  <!-- Metrics -->
+  <div class="metrics-row" id="metricsRow">
+    <div class="metric-card">
+      <div class="metric-label">H-Index</div>
+      <div class="metric-value loading" id="hIndexVal">loading</div>
+      <div class="metric-source" id="hIndexSource"></div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Total Citations</div>
+      <div class="metric-value loading" id="citTotalVal">loading</div>
+      <div class="metric-source" id="citTotalSource"></div>
+    </div>
+  </div>
+
+  <div class="note-banner">
+    Citation counts and percentiles are fetched live from <a href="https://www.crossref.org" target="_blank">CrossRef</a>. Percentile ranks articles within the same journal and publication year. H-index and total citations from <a href="https://www.semanticscholar.org" target="_blank">Semantic Scholar</a>.
+  </div>
+
+  <!-- Peer-reviewed articles -->
+  <section class="section">
+    <h2 class="section-title">Articles in Refereed Journals</h2>
+    <div id="articlesList"></div>
+  </section>
+
+  <!-- Book chapters -->
+  <section class="section">
+    <h2 class="section-title">Chapters in Edited Books</h2>
+    <div class="pub-item">
+      <strong>Tuttnauer, O.</strong> <em>Forthcoming.</em> "Government-opposition relations in the parliamentary arena and electoral campaigns," in M. Debus, Z. Somer-Topcu and M. Tavits, <em>Going Negative in Europe</em>. Oxford University Press.
+    </div>
+    <div class="pub-item">
+      <strong>Tuttnauer, O.</strong> 2024. "Candidate selection methods and electoral systems: Between collegialism and personalism," in C. Friedberg and G. Rahat, <em>Collegial Democracy versus Personal Democracy</em>. Routledge, pp. 41–59.
+    </div>
+    <div class="pub-item">
+      <strong>Tuttnauer, O.</strong> and C. Friedberg. 2021. "Israel: Party-centered elections and a personalized parliament," in H. Bäck, M. Debus and J.M. Fernandes, <em>The Politics of Legislative Debate Around the World</em>. Oxford University Press, pp. 484–504.
+    </div>
+    <div class="pub-item">
+      Kenig, O. and <strong>O. Tuttnauer.</strong> 2017. "The Decline of the Large Mainstream Parties" in M. Shamir and G. Rahat (eds.), <em>The Elections in Israel 2015</em>. Routledge, pp. 21–46.
+    </div>
+    <div class="pub-item">
+      Kenig, O., G. Rahat, and <strong>O. Tuttnauer.</strong> 2015. "Competitiveness of Party Leadership Selection Processes" in W. Cross and J.B. Pilet (eds.), <em>The Politics of Party Leadership: A Cross-National Perspective</em>. Oxford University Press, pp. 50–72.
+    </div>
+    <div class="pub-item">
+      Barnea, S. and <strong>O. Tuttnauer.</strong> 2013. "Building Coalition Governments: Theoretical Discussion and Practical Consequences," in G. Rahat et al. (eds.), <em>Reforming Israel's Political System</em>. Israel Democracy Institute and Am Oved, pp. 396–422. (in Hebrew)
+    </div>
+    <div class="pub-item">
+      <strong>Tuttnauer, O.</strong> and M. Philippov. 2013. "Government Maintenance: How to Govern Together?" in G. Rahat et al. (eds.), <em>Reforming Israel's Political System</em>. Israel Democracy Institute and Am Oved, pp. 447–470. (in Hebrew)
+    </div>
+    <div class="pub-item">
+      <strong>Tuttnauer, O.</strong> 2013. "Government Durability," in G. Rahat et al. (eds.), <em>Reforming Israel's Political System</em>. Israel Democracy Institute and Am Oved, pp. 515–534. (in Hebrew)
+    </div>
+  </section>
+
+  <!-- Monographs -->
+  <section class="section">
+    <h2 class="section-title">Monographs</h2>
+    <div class="pub-item">
+      Kenig, O., G. Rahat, M. Philippov and <strong>O. Tuttnauer.</strong> 2014. <em>Giving Less for More: Members of Political Parties in Israel</em>. Jerusalem: Israel Democracy Institute. (in Hebrew)
+    </div>
+    <div class="pub-item">
+      <strong>Tuttnauer, O.</strong> 2013. <em>The Role of the Opposition in the Knesset</em>. Jerusalem: Israel Democracy Institute. (in Hebrew)
+    </div>
+  </section>
+
+  <!-- Manuscripts -->
+  <section class="section">
+    <h2 class="section-title">Manuscripts Under Review</h2>
+    <div class="pub-item">
+      <strong>Tuttnauer, O.</strong>, L. Warode and T. Louwerse. "The dynamics of parliamentary conflict as a response to opinion polls." <em>British Journal of Political Science.</em>
+    </div>
+    <div class="pub-item">
+      Warode, L., <strong>O. Tuttnauer</strong> and J. Bernauer. "The government-opposition patterns of affective polarisation." <em>European Political Science Review.</em>
+    </div>
+  </section>
+
+  <!-- In preparation -->
+  <section class="section">
+    <h2 class="section-title">Manuscripts in Preparation</h2>
+    <div class="pub-item">
+      <strong>Tuttnauer, O.</strong> "Goldilocks principle of political conflict? Government-opposition relations and satisfaction with democracy."
+    </div>
+    <div class="pub-item">
+      <strong>Tuttnauer, O.</strong> and L. Warode. "Saying one thing and doing another? Comparing government-opposition relations in parliamentary voting and speechmaking."
+    </div>
+    <div class="pub-item">
+      <strong>Tuttnauer, O.</strong>, S. Wegmann, F. Jäger and R. Lehrer. "What do people want from opposition parties? A cross-national experimental study."
+    </div>
+    <div class="pub-item">
+      Kostelka, F., <strong>O. Tuttnauer</strong>, S. Wegmann and R. Zur. "Does opposition parties' legislative behavior increase voter turnout?"
+    </div>
+  </section>
+
+</div><!-- /page-wrap -->
+
+<footer class="page-footer">
+  <a href="https://www.ortuttnauer.com">ortuttnauer.com</a>
+</footer>
+
+<script>
+// ── Article data ────────────────────────────────────────────────────────────
+const ARTICLES = [
+  {
+    authors: "Itzkovitch-Malka, R., L. Harsgor and O. Tuttnauer",
+    year: 2025,
+    title: "The effect of formateur expectations on vote choice: A comparative analysis",
+    journal: "European Journal of Political Research",
+    note: "accepted for publication",
+    doi: "10.1017/S1475676525100236",
+    issn: "0304-4130",
+    jcr: "IF 4.2 · 22/325 · Political Science",
+    quartile: "Q1",
+  },
+  {
+    authors: "Tuttnauer, O. and G. Rahat",
+    year: 2025,
+    title: "Institutional Personalism and Personalised Behaviour: Electoral Systems, Candidate Selection Methods, and Politicians' Campaign Strategy",
+    journal: "Electoral Studies",
+    vol: "94: 102909",
+    doi: "10.1016/j.electstud.2025.102909",
+    issn: "0261-3794",
+    jcr: "IF 2.3 · 80/325 · Political Science",
+    quartile: "Q1",
+  },
+  {
+    authors: "Debus, M. and O. Tuttnauer",
+    year: 2024,
+    title: "Negative Campaign Statements, Coalition Heterogeneity, and the Support for Government Parties",
+    journal: "Electoral Studies",
+    vol: "87: 102738",
+    doi: "10.1016/j.electstud.2023.102738",
+    issn: "0261-3794",
+    jcr: "IF 2.9 · 50/318 · Political Science",
+    quartile: "Q1",
+  },
+  {
+    authors: "Tuttnauer, O. and R.Y. Hazan",
+    year: 2024,
+    title: "Government-Opposition Relations and the Vote of No-Confidence",
+    journal: "Political Studies",
+    vol: "72(3): 984–1004",
+    doi: "10.1177/00323217231168765",
+    issn: "0032-3217",
+    jcr: "IF 2.5 · 64/317 · Political Science",
+    quartile: "Q1",
+  },
+  {
+    authors: "Harsgor, L., R. Itzkovitch-Malka and O. Tuttnauer",
+    year: 2023,
+    title: "Do Coalition and Formateur Expectations Affect Vote Switching?",
+    journal: "European Political Science Review",
+    vol: "15(1): 96–115",
+    doi: "10.1017/S1755773922000455",
+    issn: "1755-7739",
+    jcr: "IF 2.7 · 56/317 · Political Science",
+    quartile: "Q1",
+  },
+  {
+    authors: "Tuttnauer, O. and G. Rahat",
+    year: 2023,
+    title: "Servants of Two (Or More) Masters: Accounting for the Complexity of Intraparty Candidate Selection Methods",
+    journal: "Party Politics",
+    vol: "29(1): 185–192",
+    doi: "10.1177/13540688211060658",
+    issn: "1354-0688",
+    jcr: "IF 2.4 · 70/317 · Political Science",
+    quartile: "Q1",
+  },
+  {
+    authors: "Oshri, O., L. Harsgor, R. Itzkovitch-Malka and O. Tuttnauer",
+    year: 2023,
+    title: "Risk Aversion and the Gender Gap in the Vote for Populist Radical Right Parties",
+    journal: "American Journal of Political Science",
+    vol: "67(3): 499–828",
+    doi: "10.1111/ajps.12696",
+    issn: "0092-5853",
+    jcr: "IF 4.503 · 21/187 · Political Science",
+    quartile: "Q1",
+  },
+  {
+    authors: "Tuttnauer, O. and S. Wegmann",
+    year: 2022,
+    title: "Voting for Votes: Opposition Parties' Legislative Activity and Electoral Outcomes",
+    journal: "American Political Science Review",
+    vol: "116(4): 1357–1374",
+    doi: "10.1017/S0003055422000338",
+    issn: "0003-0554",
+    jcr: "IF 8.048 · 4/187 · Political Science",
+    quartile: "Q1",
+  },
+  {
+    authors: "Louwerse, T., U. Sieberer, O. Tuttnauer and R.B. Andeweg",
+    year: 2021,
+    title: "Opposition in Times of Crisis: Covid-19 in Parliamentary Debates",
+    journal: "West European Politics",
+    vol: "44(5–6): 1025–1051",
+    doi: "10.1080/01402382.2021.1886519",
+    issn: "0140-2382",
+    jcr: "IF 3.960 · 30/183 · Political Science",
+    quartile: "Q1",
+  },
+  {
+    authors: "Kedar, O., L. Harsgor and O. Tuttnauer",
+    year: 2021,
+    title: "Party-System Fragmentation: A New Look at an Old Question",
+    journal: "The Journal of Politics",
+    vol: "83(2): 439–452",
+    doi: "10.1086/709835",
+    issn: "0022-3816",
+    jcr: "IF 2.658 · 29/181 · Political Science",
+    quartile: "Q1",
+  },
+  {
+    authors: "Tuttnauer, O.",
+    year: 2020,
+    title: "Government-Opposition Relations in a Fragmented, Personalized, and Multidimensional Setting: The Case of Israel",
+    journal: "Party Politics",
+    vol: "26(2): 203–214",
+    doi: "10.1177/1354068818761198",
+    issn: "1354-0688",
+    jcr: "IF 2.817 · 26/181 · Political Science",
+    quartile: "Q1",
+  },
+  {
+    authors: "Tuttnauer, O. and A. Friedman",
+    year: 2020,
+    title: "Unnatural Partners: Coalescence in Israeli Central and Local Government",
+    journal: "Journal of Elections, Public Opinion and Parties",
+    vol: "30(3): 358–378",
+    doi: "10.1080/17457289.2020.1727483",
+    issn: "1745-7289",
+    jcr: "SJR 2018: 0.901 · Sociology and Political Science",
+    quartile: "ESCI",
+  },
+  {
+    authors: "Tuttnauer, O.",
+    year: 2018,
+    title: "If You Can Beat Them, Confront Them: Party-Level Analysis of Opposition Behavior in European National Parliaments",
+    journal: "European Union Politics",
+    vol: "19(2): 278–298",
+    doi: "10.1177/1465116517752870",
+    issn: "1465-1165",
+    jcr: "IF 2.600 · 30/176 · Political Science",
+    quartile: "Q1",
+  },
+  {
+    authors: "Tuttnauer, O.",
+    year: 2014,
+    title: "Comparative Framework for Parliamentary Opposition Analysis: Israel as a Case Study",
+    journal: "Politika",
+    vol: "23: 73–104",
+    doi: null,
+    issn: null,
+    jcr: null,
+    quartile: null,
+    note: "in Hebrew",
+  },
+];
+
+// ── Render articles skeleton ─────────────────────────────────────────────────
+function renderArticles() {
+  const list = document.getElementById('articlesList');
+  list.innerHTML = ARTICLES.map((a, i) => {
+    const titleHtml = a.doi
+      ? `<a href="https://doi.org/${a.doi}" target="_blank">${a.title}</a><span id="year-${i}" style="font-family:'DM Mono',monospace;font-size:13px;color:var(--muted);font-weight:400;margin-left:6px"></span>`
+      : `${a.title}<span id="year-${i}" style="font-family:'DM Mono',monospace;font-size:13px;color:var(--muted);font-weight:400;margin-left:6px"></span>`;
+
+    const volStr = a.vol ? ` ${a.vol}` : '';
+    const noteStr = a.note ? ` <span style="font-style:italic;color:var(--faint)">(${a.note})</span>` : '';
+
+    const badgeHtml = a.quartile
+      ? `<span class="badge badge-${a.quartile === 'Q1' ? 'q1' : a.quartile === 'Q2' ? 'q2' : 'esci'}">${a.quartile}</span>`
+      : '';
+    const jcrHtml = a.jcr ? `<span class="badge-jcr">${a.jcr}</span>` : '';
+
+    const citHtml = a.doi
+      ? `<div class="cit-widget" id="cit-${i}">
+           <div class="cit-loading">…</div>
+         </div>`
+      : `<div class="cit-widget"></div>`;
+
+    return `<div class="article">
+      <div class="article-main">
+        <div class="article-title">${titleHtml}</div>
+        <div class="article-meta">${a.authors}. <em>${a.journal}</em>${volStr}.${noteStr}</div>
+        <div class="article-badges">${badgeHtml}${jcrHtml}</div>
+      </div>
+      ${citHtml}
+    </div>`;
+  }).join('');
+}
+
+// ── CrossRef: fetch citation count AND publication year ────────────────────
+async function fetchCrossRefData(doi) {
+  const r = await fetch(`https://api.crossref.org/works/${encodeURIComponent(doi)}`);
+  if (!r.ok) throw new Error('not found');
+  const msg = (await r.json()).message;
+  const cit  = msg['is-referenced-by-count'] ?? 0;
+  const yObj = msg.published || msg['published-print'] || msg['published-online'];
+  const year = yObj?.['date-parts']?.[0]?.[0] ?? null;
+  return { cit, year };
+}
+
+async function fetchPercentile(issn, year, cit) {
+  const all = [];
+  for (let offset = 0; offset < 2000; offset += 1000) {
+    try {
+      const url = `https://api.crossref.org/works?filter=issn:${issn},` +
+        `from-pub-date:${year}-01-01,until-pub-date:${year}-12-31` +
+        `&select=is-referenced-by-count&rows=1000&offset=${offset}`;
+      const r = await fetch(url);
+      if (!r.ok) break;
+      const d = await r.json();
+      const items = d.message.items || [];
+      items.forEach(it => all.push(it['is-referenced-by-count'] ?? 0));
+      if (items.length < 1000) break;
+    } catch { break; }
+  }
+  if (!all.length) return null;
+  const sorted = [...all].sort((a, b) => a - b);
+  const n = sorted.length;
+  const below = sorted.filter(c => c < cit).length;
+  const equal = sorted.filter(c => c === cit).length;
+  return Math.round(((below + equal * 0.5) / n) * 100);
+}
+
+function pctColor(p) {
+  if (p >= 90) return '#c05020';
+  if (p >= 75) return '#2b4c7e';
+  if (p >= 50) return '#1a5c38';
+  return '#7a7468';
+}
+
+function updateCitWidget(i, cit, year, pct) {
+  const el = document.getElementById(`cit-${i}`);
+  if (!el) return;
+  // Put year prominently after title
+  const yearEl = document.getElementById(`year-${i}`);
+  if (yearEl && year) yearEl.textContent = `(${year})`;
+  const pctHtml = pct !== null
+    ? `<div class="cit-pct" style="color:${pctColor(pct)}">${pct}th pct.</div>
+       <div class="cit-bar-wrap"><div class="cit-bar-fill" style="width:${pct}%;background:${pctColor(pct)}"></div></div>`
+    : '';
+  el.innerHTML = `
+    <div class="cit-count">${cit}</div>
+    <div class="cit-label">citations</div>
+    ${pctHtml}`;
+  el.classList.add('fade-in');
+}
+
+async function loadAllCitations() {
+  for (let i = 0; i < ARTICLES.length; i++) {
+    const a = ARTICLES[i];
+    if (!a.doi) continue;
+    try {
+      // Use CrossRef year (not hardcoded) — keeps percentile consistent with Citation Compare
+      const { cit, year } = await fetchCrossRefData(a.doi);
+      const pct = (a.issn && year) ? await fetchPercentile(a.issn, year, cit) : null;
+      updateCitWidget(i, cit, year, pct);
+    } catch {
+      const el = document.getElementById(`cit-${i}`);
+      if (el) el.innerHTML = `<div class="cit-label" style="color:var(--faint)">unavailable</div>`;
+    }
+    // small delay to avoid hammering CrossRef
+    await new Promise(r => setTimeout(r, 250));
+  }
+}
+
+// ── Semantic Scholar H-index (via known paper DOI → author lookup) ───────────
+async function loadHIndex() {
+  try {
+    // Step 1: look up APSR paper to get Or's Semantic Scholar author ID
+    const paperR = await fetch(
+      'https://api.semanticscholar.org/graph/v1/paper/DOI:10.1017/S0003055422000338' +
+      '?fields=authors',
+      { headers: { 'Accept': 'application/json' } }
+    );
+    if (!paperR.ok) throw new Error('paper lookup failed');
+    const paperD = await paperR.json();
+    const authors = paperD.authors || [];
+    // find Tuttnauer among co-authors
+    const authorEntry = authors.find(a =>
+      a.name && a.name.toLowerCase().includes('tuttnauer')
+    );
+    if (!authorEntry?.authorId) throw new Error('author not found in paper');
+
+    // Step 2: fetch author details
+    const authR = await fetch(
+      `https://api.semanticscholar.org/graph/v1/author/${authorEntry.authorId}` +
+      `?fields=name,hIndex,citationCount`,
+      { headers: { 'Accept': 'application/json' } }
+    );
+    if (!authR.ok) throw new Error('author fetch failed');
+    const authD = await authR.json();
+
+    if (authD.hIndex == null) throw new Error('no hIndex');
+
+    document.getElementById('hIndexVal').textContent = authD.hIndex;
+    document.getElementById('hIndexVal').classList.remove('loading');
+    document.getElementById('hIndexSource').textContent = 'Semantic Scholar';
+    document.getElementById('citTotalVal').textContent = (authD.citationCount || 0).toLocaleString();
+    document.getElementById('citTotalVal').classList.remove('loading');
+    document.getElementById('citTotalSource').textContent = 'Semantic Scholar';
+
+  } catch {
+    // Fallback: link directly to Google Scholar profile
+    const linkHtml = (href) =>
+      `<a href="${href}" target="_blank" style="font-size:13px;color:var(--accent);font-family:'DM Sans',sans-serif;text-decoration:none">See Google Scholar ↗</a>`;
+    const gs = 'https://scholar.google.com/citations?user=W1PkZGIAAAAJ';
+    document.getElementById('hIndexVal').innerHTML = linkHtml(gs);
+    document.getElementById('hIndexVal').classList.remove('loading');
+    document.getElementById('citTotalVal').innerHTML = linkHtml(gs);
+    document.getElementById('citTotalVal').classList.remove('loading');
+  }
+}
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+renderArticles();
+loadHIndex();
+loadAllCitations();
+</script>
+</body>
+</html>
