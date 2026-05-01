@@ -6,21 +6,20 @@
 <title>Publications — Or Tuttnauer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
 :root {
-  --bg:       #f7f5f1;
+  --bg:       #f4f6f9;
   --surface:  #ffffff;
-  --border:   #e4e0d8;
-  --text:     #1c1a17;
-  --muted:    #7a7468;
-  --faint:    #b5b0a6;
-  --accent:   #2b4c7e;
-  --accent2:  #8b5e3c;
-  --q1:       #1a5c38;
-  --q1-bg:    #eaf5ee;
-  --q1-border:#b3ddc2;
+  --border:   #dde2ec;
+  --text:     #1a2035;
+  --muted:    #4a5a7a;
+  --faint:    #8a96b0;
+  --accent:   #2a6dd9;
+  --q1:       #2a7a50;
+  --q1-bg:    #e8f7ef;
+  --q1-border:#b8e0cc;
   --q2:       #1a4a6e;
   --q2-bg:    #e8f0f8;
   --q2-border:#b3cfe8;
@@ -110,11 +109,11 @@ body {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--faint);
-  font-family: 'DM Mono', monospace;
+  font-family: 'IBM Plex Mono', monospace;
 }
 
 .metric-pill-val {
-  font-family: 'DM Mono', monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 15px;
   font-weight: 500;
   color: var(--accent);
@@ -187,7 +186,7 @@ body {
 }
 
 .badge {
-  font-family: 'DM Mono', monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.06em;
@@ -201,7 +200,7 @@ body {
 .badge-esci { background: #f5f0e8; color: #7a5a2a; border: 1px solid #d4c0a0; }
 
 .badge-jcr {
-  font-family: 'DM Mono', monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 10px;
   color: var(--faint);
   padding: 3px 0;
@@ -217,7 +216,7 @@ body {
 }
 
 .cit-count {
-  font-family: 'DM Mono', monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 28px;
   font-weight: 400;
   color: var(--accent);
@@ -233,7 +232,7 @@ body {
 
 .cit-pct {
   font-size: 11px;
-  font-family: 'DM Mono', monospace;
+  font-family: 'IBM Plex Mono', monospace;
   color: var(--muted);
   text-align: right;
 }
@@ -256,7 +255,7 @@ body {
 .cit-loading {
   font-size: 11px;
   color: var(--faint);
-  font-family: 'DM Mono', monospace;
+  font-family: 'IBM Plex Mono', monospace;
   animation: pulse 1.4s infinite;
 }
 
@@ -562,8 +561,8 @@ function renderArticles() {
   const list = document.getElementById('articlesList');
   list.innerHTML = ARTICLES.map((a, i) => {
     const titleHtml = a.doi
-      ? `<a href="https://doi.org/${a.doi}" target="_blank">${a.title}</a><span id="year-${i}" style="font-family:'DM Mono',monospace;font-size:13px;color:var(--muted);font-weight:400;margin-left:6px"></span>`
-      : `${a.title}<span id="year-${i}" style="font-family:'DM Mono',monospace;font-size:13px;color:var(--muted);font-weight:400;margin-left:6px"></span>`;
+      ? `<a href="https://doi.org/${a.doi}" target="_blank">${a.title}</a><span id="year-${i}" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);font-weight:400;margin-left:6px"></span>`
+      : `${a.title}<span id="year-${i}" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);font-weight:400;margin-left:6px"></span>`;
 
     const volStr = a.vol ? ` ${a.vol}` : '';
     const noteStr = a.note ? ` <span style="font-style:italic;color:var(--faint)">(${a.note})</span>` : '';
@@ -625,10 +624,10 @@ async function fetchPercentile(issn, year, cit) {
 }
 
 function pctColor(p) {
-  if (p >= 90) return '#c05020';
-  if (p >= 75) return '#2b4c7e';
-  if (p >= 50) return '#1a5c38';
-  return '#7a7468';
+  if (p >= 90) return '#e07c44';
+  if (p >= 75) return '#2a6dd9';
+  if (p >= 50) return '#2a7a50';
+  return '#8a96b0';
 }
 
 function updateCitWidget(i, cit, year, pct) {
