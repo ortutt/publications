@@ -92,50 +92,38 @@ body {
 .profile-link:hover { border-color: var(--accent); color: var(--accent); }
 .profile-link svg { width: 14px; height: 14px; flex-shrink: 0; }
 
-/* ── H-index card ── */
-.metrics-row {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 40px;
-}
-
-.metric-card {
-  background: var(--surface);
+/* ── Metric pills (inline with profile links) ── */
+.metric-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  padding: 7px 14px;
+  border-radius: 4px;
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px 22px;
-  min-width: 140px;
+  background: var(--surface);
+  color: var(--muted);
 }
 
-.metric-label {
+.metric-pill-label {
   font-size: 10px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--faint);
-  margin-bottom: 6px;
   font-family: 'DM Mono', monospace;
 }
 
-.metric-value {
+.metric-pill-val {
   font-family: 'DM Mono', monospace;
-  font-size: 36px;
-  font-weight: 400;
+  font-size: 15px;
+  font-weight: 500;
   color: var(--accent);
   line-height: 1;
 }
 
-.metric-source {
-  font-size: 11px;
-  color: var(--faint);
-  margin-top: 4px;
-}
-
-.metric-value.loading {
-  font-size: 14px;
-  color: var(--faint);
+.loading-pill {
   animation: pulse 1.4s infinite;
-  padding-top: 10px;
+  color: var(--faint);
 }
 
 /* ── Section headers ── */
@@ -300,13 +288,13 @@ body {
 
 /* ── Note banner ── */
 .note-banner {
-  background: #fef8ee;
-  border: 1px solid #f0d898;
-  border-radius: 6px;
-  padding: 10px 16px;
-  font-size: 12.5px;
-  color: #7a5a20;
+  background: var(--bg);
+  border-left: 3px solid var(--border);
+  padding: 8px 14px;
+  font-size: 12px;
+  color: var(--faint);
   margin-bottom: 28px;
+  line-height: 1.6;
 }
 
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
@@ -340,22 +328,16 @@ body {
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
         Website
       </a>
+      <span class="metric-pill">
+        <span class="metric-pill-label">h-index</span>
+        <span class="metric-pill-val loading-pill" id="hIndexVal">…</span>
+      </span>
+      <span class="metric-pill">
+        <span class="metric-pill-label">citations</span>
+        <span class="metric-pill-val loading-pill" id="citTotalVal">…</span>
+      </span>
     </div>
   </header>
-
-  <!-- Metrics -->
-  <div class="metrics-row" id="metricsRow">
-    <div class="metric-card">
-      <div class="metric-label">H-Index</div>
-      <div class="metric-value loading" id="hIndexVal">loading</div>
-      <div class="metric-source" id="hIndexSource"></div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">Total Citations</div>
-      <div class="metric-value loading" id="citTotalVal">loading</div>
-      <div class="metric-source" id="citTotalSource"></div>
-    </div>
-  </div>
 
   <div class="note-banner">
     Citation counts and percentiles are fetched live from <a href="https://www.crossref.org" target="_blank">CrossRef</a>. Percentile ranks articles within the same journal and publication year. H-index and total citations from <a href="https://www.semanticscholar.org" target="_blank">Semantic Scholar</a>.
@@ -365,6 +347,17 @@ body {
   <section class="section">
     <h2 class="section-title">Articles in Refereed Journals</h2>
     <div id="articlesList"></div>
+  </section>
+
+  <!-- Monographs -->
+  <section class="section">
+    <h2 class="section-title">Monographs</h2>
+    <div class="pub-item">
+      Kenig, O., G. Rahat, M. Philippov and <strong>O. Tuttnauer.</strong> 2014. <em>Giving Less for More: Members of Political Parties in Israel</em>. Jerusalem: Israel Democracy Institute. (in Hebrew)
+    </div>
+    <div class="pub-item">
+      <strong>Tuttnauer, O.</strong> 2013. <em>The Role of the Opposition in the Knesset</em>. Jerusalem: Israel Democracy Institute. (in Hebrew)
+    </div>
   </section>
 
   <!-- Book chapters -->
@@ -396,44 +389,7 @@ body {
     </div>
   </section>
 
-  <!-- Monographs -->
-  <section class="section">
-    <h2 class="section-title">Monographs</h2>
-    <div class="pub-item">
-      Kenig, O., G. Rahat, M. Philippov and <strong>O. Tuttnauer.</strong> 2014. <em>Giving Less for More: Members of Political Parties in Israel</em>. Jerusalem: Israel Democracy Institute. (in Hebrew)
-    </div>
-    <div class="pub-item">
-      <strong>Tuttnauer, O.</strong> 2013. <em>The Role of the Opposition in the Knesset</em>. Jerusalem: Israel Democracy Institute. (in Hebrew)
-    </div>
-  </section>
 
-  <!-- Manuscripts -->
-  <section class="section">
-    <h2 class="section-title">Manuscripts Under Review</h2>
-    <div class="pub-item">
-      <strong>Tuttnauer, O.</strong>, L. Warode and T. Louwerse. "The dynamics of parliamentary conflict as a response to opinion polls." <em>British Journal of Political Science.</em>
-    </div>
-    <div class="pub-item">
-      Warode, L., <strong>O. Tuttnauer</strong> and J. Bernauer. "The government-opposition patterns of affective polarisation." <em>European Political Science Review.</em>
-    </div>
-  </section>
-
-  <!-- In preparation -->
-  <section class="section">
-    <h2 class="section-title">Manuscripts in Preparation</h2>
-    <div class="pub-item">
-      <strong>Tuttnauer, O.</strong> "Goldilocks principle of political conflict? Government-opposition relations and satisfaction with democracy."
-    </div>
-    <div class="pub-item">
-      <strong>Tuttnauer, O.</strong> and L. Warode. "Saying one thing and doing another? Comparing government-opposition relations in parliamentary voting and speechmaking."
-    </div>
-    <div class="pub-item">
-      <strong>Tuttnauer, O.</strong>, S. Wegmann, F. Jäger and R. Lehrer. "What do people want from opposition parties? A cross-national experimental study."
-    </div>
-    <div class="pub-item">
-      Kostelka, F., <strong>O. Tuttnauer</strong>, S. Wegmann and R. Zur. "Does opposition parties' legislative behavior increase voter turnout?"
-    </div>
-  </section>
 
 </div><!-- /page-wrap -->
 
@@ -740,21 +696,18 @@ async function loadHIndex() {
     if (authD.hIndex == null) throw new Error('no hIndex');
 
     document.getElementById('hIndexVal').textContent = authD.hIndex;
-    document.getElementById('hIndexVal').classList.remove('loading');
-    document.getElementById('hIndexSource').textContent = 'Semantic Scholar';
+    document.getElementById('hIndexVal').classList.remove('loading-pill');
     document.getElementById('citTotalVal').textContent = (authD.citationCount || 0).toLocaleString();
-    document.getElementById('citTotalVal').classList.remove('loading');
-    document.getElementById('citTotalSource').textContent = 'Semantic Scholar';
+    document.getElementById('citTotalVal').classList.remove('loading-pill');
 
   } catch {
     // Fallback: link directly to Google Scholar profile
-    const linkHtml = (href) =>
-      `<a href="${href}" target="_blank" style="font-size:13px;color:var(--accent);font-family:'DM Sans',sans-serif;text-decoration:none">See Google Scholar ↗</a>`;
     const gs = 'https://scholar.google.com/citations?user=W1PkZGIAAAAJ';
-    document.getElementById('hIndexVal').innerHTML = linkHtml(gs);
-    document.getElementById('hIndexVal').classList.remove('loading');
-    document.getElementById('citTotalVal').innerHTML = linkHtml(gs);
-    document.getElementById('citTotalVal').classList.remove('loading');
+    const linkHtml = `<a href="${gs}" target="_blank" style="font-size:11px;color:var(--accent);font-family:'DM Sans',sans-serif;text-decoration:none">↗</a>`;
+    document.getElementById('hIndexVal').innerHTML = linkHtml;
+    document.getElementById('hIndexVal').classList.remove('loading-pill');
+    document.getElementById('citTotalVal').innerHTML = linkHtml;
+    document.getElementById('citTotalVal').classList.remove('loading-pill');
   }
 }
 
