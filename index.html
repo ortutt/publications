@@ -3,605 +3,533 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Publications — Or Tuttnauer</title>
+<title>Citation Compare</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:       #f4f6f9;
-  --surface:  #ffffff;
-  --border:   #dde2ec;
-  --text:     #1a2035;
-  --muted:    #4a5a7a;
-  --faint:    #8a96b0;
-  --accent:   #2a6dd9;
-  --q1:       #2a7a50;
-  --q1-bg:    #e8f7ef;
-  --q1-border:#b8e0cc;
-  --q2:       #1a4a6e;
-  --q2-bg:    #e8f0f8;
-  --q2-border:#b3cfe8;
-}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    background: #f4f6f9;
+    color: #1a2035;
+    font-family: 'DM Sans', sans-serif;
+  }
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  line-height: 1.6;
-  min-height: 100vh;
-}
+  header {
+    border-bottom: 1px solid #dde2ec;
+    padding: 26px 40px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    background: #ffffff;
+  }
 
-/* ── Layout ── */
-.page-wrap {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 0 24px 80px;
-}
+  header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #1a2035;
+    letter-spacing: 0.01em;
+  }
 
-/* ── Header ── */
-.site-header {
-  padding: 48px 0 36px;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 40px;
-}
+  header span {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8a96b0;
+  }
 
-.site-header h1 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 38px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  color: var(--text);
-  margin-bottom: 4px;
-}
+  main {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 44px 24px 80px;
+  }
 
-.site-header .subtitle {
-  font-size: 14px;
-  color: var(--muted);
-  margin-bottom: 20px;
-}
 
-.profile-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-}
 
-.profile-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 7px 14px;
-  border-radius: 4px;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  background: var(--surface);
-  transition: all 0.15s;
-}
-.profile-link:hover { border-color: var(--accent); color: var(--accent); }
-.profile-link svg { width: 14px; height: 14px; flex-shrink: 0; }
+  /* Input row */
+  .input-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 44px;
+  }
 
-/* ── Metric pills (inline with profile links) ── */
-.metric-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  padding: 7px 14px;
-  border-radius: 4px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--muted);
-}
+  input[type="text"], input[type="password"] {
+    flex: 1;
+    background: #ffffff;
+    border: 1px solid #dde2ec;
+    border-radius: 8px;
+    color: #1a2035;
+    font-size: 13.5px;
+    padding: 14px 18px;
+    font-family: 'IBM Plex Mono', monospace;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  input[type="text"]:focus, input[type="password"]:focus { border-color: #2a6dd9; }
 
-.metric-pill-label {
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--faint);
-  font-family: 'IBM Plex Mono', monospace;
-}
+  button.primary {
+    background: #2a6dd9;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 14px 26px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: 'DM Sans', sans-serif;
+    white-space: nowrap;
+    transition: opacity 0.15s;
+  }
+  button.primary:hover:not(:disabled) { opacity: 0.82; }
+  button.primary:disabled { opacity: 0.5; cursor: not-allowed; }
 
-.metric-pill-val {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--accent);
-  line-height: 1;
-}
+  button.secondary {
+    background: #f0f3f8;
+    color: #4a5a7a;
+    border: 1px solid #dde2ec;
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+    margin-top: 10px;
+  }
+  button.secondary:hover { background: #dde2ec; color: #1a2035; }
 
-.loading-pill {
-  animation: pulse 1.4s infinite;
-  color: var(--faint);
-}
+  /* Cards */
+  .card {
+    background: #ffffff;
+    border: 1px solid #dde2ec;
+    border-radius: 12px;
+    padding: 26px 30px;
+    margin-bottom: 16px;
+    animation: fadeUp 0.45s ease forwards;
+  }
 
-/* ── Section headers ── */
-.section {
-  margin-bottom: 48px;
-}
+  .card-label {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #8a96b0;
+    font-weight: 500;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
 
-.section-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  color: var(--text);
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--border);
-}
+  .paper-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: #1a2035;
+    line-height: 1.45;
+    margin-bottom: 10px;
+  }
 
-/* ── Article entries ── */
-.article {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 12px 20px;
-  padding: 18px 0;
-  border-bottom: 1px solid var(--border);
-  align-items: start;
-}
-.article:last-child { border-bottom: none; }
+  .authors {
+    font-size: 13px;
+    color: #4a5a7a;
+    line-height: 1.65;
+    margin-bottom: 8px;
+  }
 
-.article-main { min-width: 0; }
+  .meta {
+    font-size: 12px;
+    color: #8a96b0;
+    font-family: 'IBM Plex Mono', monospace;
+  }
 
-.article-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 17px;
-  font-weight: 500;
-  line-height: 1.4;
-  color: var(--text);
-  margin-bottom: 5px;
-}
+  .meta .doi { color: #2a6dd9; }
 
-.article-title a {
-  color: inherit;
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.15s;
-}
-.article-title a:hover { border-color: var(--accent); color: var(--accent); }
+  /* Citation grid */
+  .cit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 16px;
+    animation: fadeUp 0.45s 0.1s ease both;
+  }
 
-.article-meta {
-  font-size: 13px;
-  color: var(--muted);
-  margin-bottom: 8px;
-  line-height: 1.5;
-}
+  .cit-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 24px 26px;
+  }
 
-.article-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  align-items: center;
-}
+  .cit-source {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
 
-.badge {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  padding: 3px 8px;
-  border-radius: 3px;
-  white-space: nowrap;
-}
+  .cit-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 52px;
+    font-weight: 500;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
 
-.badge-q1 { background: var(--q1-bg); color: var(--q1); border: 1px solid var(--q1-border); }
-.badge-q2 { background: var(--q2-bg); color: var(--q2); border: 1px solid var(--q2-border); }
-.badge-esci { background: #f5f0e8; color: #7a5a2a; border: 1px solid #d4c0a0; }
+  .cit-sub {
+    font-size: 11px;
+    color: #8a96b0;
+  }
 
-.badge-jcr {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
-  color: var(--faint);
-  padding: 3px 0;
-}
+  /* Percentile */
+  .pct-card { animation: fadeUp 0.45s 0.2s ease both; }
 
-/* ── Citation widget ── */
-.cit-widget {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  min-width: 90px;
-  gap: 4px;
-}
+  .big-pct {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 68px;
+    font-weight: 500;
+    line-height: 1;
+  }
 
-.cit-count {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 28px;
-  font-weight: 400;
-  color: var(--accent);
-  line-height: 1;
-}
+  .pct-suffix {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    color: #8a96b0;
+    margin-left: 8px;
+    vertical-align: bottom;
+    line-height: 1.2;
+  }
 
-.cit-label {
-  font-size: 10px;
-  color: var(--faint);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
+  .pct-desc {
+    font-size: 13px;
+    color: #4a5a7a;
+    margin-top: 6px;
+    margin-bottom: 20px;
+  }
 
-.cit-pct {
-  font-size: 11px;
-  font-family: 'IBM Plex Mono', monospace;
-  color: var(--muted);
-  text-align: right;
-}
+  .bar-track {
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(to right, #a8c4f0, #2a6dd9, #f0c040, #e07c44, #d14545);
+    position: relative;
+    margin-bottom: 6px;
+  }
 
-.cit-bar-wrap {
-  width: 80px;
-  height: 3px;
-  background: var(--border);
-  border-radius: 2px;
-  overflow: hidden;
-}
+  .bar-marker {
+    position: absolute;
+    top: -7px;
+    width: 20px;
+    height: 20px;
+    background: #ffffff;
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+    box-shadow: 0 0 0 2px #2a6dd9, 0 2px 6px rgba(0,0,0,0.15);
+    transform: translateX(-50%);
+  }
 
-.cit-bar-fill {
-  height: 100%;
-  border-radius: 2px;
-  background: var(--accent);
-  transition: width 0.6s ease;
-}
+  .bar-ticks {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: #8a96b0;
+    margin-bottom: 22px;
+  }
 
-.cit-loading {
-  font-size: 11px;
-  color: var(--faint);
-  font-family: 'IBM Plex Mono', monospace;
-  animation: pulse 1.4s infinite;
-}
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: #dde2ec;
+    border-radius: 8px;
+    overflow: hidden;
+  }
 
-/* ── Other publications (simpler rows) ── */
-.pub-item {
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border);
-  font-size: 14px;
-  line-height: 1.55;
-  color: var(--muted);
-}
-.pub-item:last-child { border-bottom: none; }
-.pub-item a { color: var(--accent); text-decoration: none; }
-.pub-item a:hover { text-decoration: underline; }
-.pub-item strong { color: var(--text); font-weight: 500; }
-.pub-item em { font-style: italic; }
+  .stat-cell {
+    background: #f4f6f9;
+    padding: 16px 12px;
+    text-align: center;
+  }
 
-/* ── Footer ── */
-.page-footer {
-  text-align: center;
-  padding: 24px;
-  font-size: 12px;
-  color: var(--faint);
-  border-top: 1px solid var(--border);
-  margin-top: 40px;
-}
-.page-footer a { color: var(--accent); text-decoration: none; }
-.page-footer a:hover { text-decoration: underline; }
+  .stat-val {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 18px;
+    color: #1a2035;
+    margin-bottom: 4px;
+  }
 
-/* ── Note banner ── */
-.note-banner {
-  background: var(--bg);
-  border-left: 3px solid var(--border);
-  padding: 8px 14px;
-  font-size: 12px;
-  color: var(--faint);
-  margin-bottom: 28px;
-  line-height: 1.6;
-}
+  .stat-lbl {
+    font-size: 10px;
+    color: #8a96b0;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
 
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
-@keyframes fadeUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-.fade-in { animation: fadeUp 0.4s ease forwards; }
+  .note-text {
+    font-size: 11.5px;
+    color: #8a96b0;
+    margin-top: 14px;
+    line-height: 1.6;
+  }
 
-@media (max-width: 600px) {
-  .article { grid-template-columns: 1fr; }
-  .cit-widget { flex-direction: row; align-items: center; gap: 10px; }
-  .cit-bar-wrap { display: none; }
-}
+  .conf-badge {
+    display: inline-block;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .conf-high   { background: #e8f7ef; color: #2a7a50; border: 1px solid #b8e0cc; }
+  .conf-medium { background: #fef8e8; color: #8a6010; border: 1px solid #f0d880; }
+  .conf-low    { background: #f3eef8; color: #6a40a0; border: 1px solid #d0b8e8; }
+
+  /* Loading */
+  .loading-box {
+    background: #ffffff;
+    border: 1px solid #dde2ec;
+    border-radius: 12px;
+    padding: 32px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .loading-text {
+    font-size: 13px;
+    color: #8a96b0;
+    font-family: 'IBM Plex Mono', monospace;
+    animation: pulse 1.6s infinite;
+  }
+
+  /* Error */
+  .error-box {
+    background: #fff5f7;
+    border: 1px solid #f0b8c0;
+    border-radius: 12px;
+    padding: 18px 22px;
+    color: #c03050;
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+
+  /* Animations */
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+
+  #results { display: none; }
 </style>
 </head>
 <body>
-<div class="page-wrap">
 
-  <!-- Header -->
-  <header class="site-header">
-    <h1>Or Tuttnauer</h1>
-    <p class="subtitle">Postdoctoral Fellow · Mannheim Centre for European Social Research (MZES), University of Mannheim</p>
-    <div class="profile-links">
-      <a class="profile-link" href="https://orcid.org/0000-0001-7338-3717" target="_blank">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947s-.422.947-.947.947-.946-.431-.946-.947.421-.947.946-.947zm-.722 3.038h1.444v10.041H6.647V7.416zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.016-5.325 5.016h-3.919V7.416zm1.444 1.303v7.444h2.297c3.272 0 3.862-2.203 3.862-3.722 0-2.016-1.116-3.722-3.781-3.722h-2.378z"/></svg>
-        ORCID
-      </a>
-      <a class="profile-link" href="https://scholar.google.com/citations?user=W1PkZGIAAAAJ" target="_blank">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></svg>
-        Google Scholar
-      </a>
-      <a class="profile-link" href="https://www.ortuttnauer.com" target="_blank">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        Website
-      </a>
-      <span class="metric-pill">
-        <span class="metric-pill-label">h-index</span>
-        <span class="metric-pill-val loading-pill" id="hIndexVal">…</span>
-      </span>
-      <span class="metric-pill">
-        <span class="metric-pill-label">citations</span>
-        <span class="metric-pill-val loading-pill" id="citTotalVal">…</span>
-      </span>
-    </div>
-  </header>
+<header>
+  <h1>Citation Compare</h1>
+  <span>CrossRef · OpenAlex · Percentile</span>
+</header>
 
-  <div class="note-banner">
-    Citation counts and percentiles are fetched live from <a href="https://www.crossref.org" target="_blank">CrossRef</a>. Percentile ranks articles within the same journal and publication year. H-index and total citations from <a href="https://www.semanticscholar.org" target="_blank">Semantic Scholar</a>.
+<main>
+
+
+
+  <!-- Intro -->
+  <p style="font-size: 15px; color: #4a5a7a; line-height: 1.7; margin-bottom: 28px;">
+    Welcome to Citation Compare. Enter an article link or DOI below to see how its citations compare to other publications from the same year and journal.
+  </p>
+
+  <!-- DOI input -->
+  <div class="input-row">
+    <input type="text" id="doiInput"
+      placeholder="DOI or article URL — e.g. 10.1017/S0003055422000338"
+      onkeydown="if(event.key==='Enter') lookup()">
+    <button class="primary" id="lookupBtn" onclick="lookup()">Look up</button>
   </div>
 
-  <!-- Peer-reviewed articles -->
-  <section class="section">
-    <h2 class="section-title">Articles in Refereed Journals</h2>
-    <div id="articlesList"></div>
-  </section>
+  <!-- Loading -->
+  <div class="loading-box" id="loadingBox" style="display:none">
+    <p class="loading-text" id="loadingText">Working…</p>
+  </div>
 
-  <!-- Monographs -->
-  <section class="section">
-    <h2 class="section-title">Monographs</h2>
-    <div class="pub-item">
-      Kenig, O., G. Rahat, M. Philippov and <strong>O. Tuttnauer.</strong> 2014. <em>Giving Less for More: Members of Political Parties in Israel</em>. Jerusalem: Israel Democracy Institute. (in Hebrew)
-    </div>
-    <div class="pub-item">
-      <strong>Tuttnauer, O.</strong> 2013. <em>The Role of the Opposition in the Knesset</em>. Jerusalem: Israel Democracy Institute. (in Hebrew)
-    </div>
-  </section>
+  <!-- Error -->
+  <div class="error-box" id="errorBox" style="display:none"></div>
 
-  <!-- Book chapters -->
-  <section class="section">
-    <h2 class="section-title">Chapters in Edited Books</h2>
-    <div class="pub-item">
-      <strong>Tuttnauer, O.</strong> <em>Forthcoming.</em> "Government-opposition relations in the parliamentary arena and electoral campaigns," in M. Debus, Z. Somer-Topcu and M. Tavits, <em>Going Negative in Europe</em>. Oxford University Press.
-    </div>
-    <div class="pub-item">
-      <strong>Tuttnauer, O.</strong> 2024. "Candidate selection methods and electoral systems: Between collegialism and personalism," in C. Friedberg and G. Rahat, <em>Collegial Democracy versus Personal Democracy</em>. Routledge, pp. 41–59.
-    </div>
-    <div class="pub-item">
-      <strong>Tuttnauer, O.</strong> and C. Friedberg. 2021. "Israel: Party-centered elections and a personalized parliament," in H. Bäck, M. Debus and J.M. Fernandes, <em>The Politics of Legislative Debate Around the World</em>. Oxford University Press, pp. 484–504.
-    </div>
-    <div class="pub-item">
-      Kenig, O. and <strong>O. Tuttnauer.</strong> 2017. "The Decline of the Large Mainstream Parties" in M. Shamir and G. Rahat (eds.), <em>The Elections in Israel 2015</em>. Routledge, pp. 21–46.
-    </div>
-    <div class="pub-item">
-      Kenig, O., G. Rahat, and <strong>O. Tuttnauer.</strong> 2015. "Competitiveness of Party Leadership Selection Processes" in W. Cross and J.B. Pilet (eds.), <em>The Politics of Party Leadership: A Cross-National Perspective</em>. Oxford University Press, pp. 50–72.
-    </div>
-    <div class="pub-item">
-      Barnea, S. and <strong>O. Tuttnauer.</strong> 2013. "Building Coalition Governments: Theoretical Discussion and Practical Consequences," in G. Rahat et al. (eds.), <em>Reforming Israel's Political System</em>. Israel Democracy Institute and Am Oved, pp. 396–422. (in Hebrew)
-    </div>
-    <div class="pub-item">
-      <strong>Tuttnauer, O.</strong> and M. Philippov. 2013. "Government Maintenance: How to Govern Together?" in G. Rahat et al. (eds.), <em>Reforming Israel's Political System</em>. Israel Democracy Institute and Am Oved, pp. 447–470. (in Hebrew)
-    </div>
-    <div class="pub-item">
-      <strong>Tuttnauer, O.</strong> 2013. "Government Durability," in G. Rahat et al. (eds.), <em>Reforming Israel's Political System</em>. Israel Democracy Institute and Am Oved, pp. 515–534. (in Hebrew)
-    </div>
-  </section>
+  <!-- Results -->
+  <div id="results">
 
+    <!-- Paper info -->
+    <div class="card" id="paperCard">
+      <div class="card-label">Article</div>
+      <div class="paper-title" id="paperTitle"></div>
+      <div class="authors" id="paperAuthors"></div>
+      <div class="meta" id="paperMeta"></div>
+    </div>
 
+    <!-- Citations -->
+    <div class="cit-grid">
+      <div class="cit-card" style="border: 1px solid #c8d8f8">
+        <div class="cit-source" style="color:#4c8ef5">CrossRef</div>
+        <div class="cit-num" style="color:#4c8ef5" id="xrefNum">—</div>
+        <div class="cit-sub">citations recorded</div>
+        <div id="xrefExtra"></div>
+      </div>
+      <div class="cit-card" style="border: 1px solid #c8e8d8">
+        <div class="cit-source" style="color:#2a9a70">OpenAlex</div>
+        <div class="cit-num" style="color:#2a9a70" id="oaNum">—</div>
+        <div class="cit-sub" id="oaSub">—</div>
+        <div id="oaExtra"></div>
+      </div>
+    </div>
 
-</div><!-- /page-wrap -->
+    <!-- Percentile -->
+    <div class="card pct-card" id="pctCard" style="display:none">
+      <div class="card-label" id="pctLabel"></div>
+      <div style="display:flex; align-items:flex-end; gap:4px; margin-bottom:4px">
+        <span class="big-pct" id="pctNum"></span>
+        <span class="pct-suffix">th percentile</span>
+      </div>
+      <p class="pct-desc" id="pctDesc"></p>
+      <div class="bar-track">
+        <div class="bar-marker" id="barMarker"></div>
+      </div>
+      <div class="bar-ticks">
+        <span>0</span><span>25</span><span>50</span><span>75</span><span>100</span>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-cell">
+          <div class="stat-val" id="statThis">—</div>
+          <div class="stat-lbl">This article</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-val" id="statMedian">—</div>
+          <div class="stat-lbl">Median</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-val" id="statMean">—</div>
+          <div class="stat-lbl">Mean</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-val" id="statP90">—</div>
+          <div class="stat-lbl">90th pct.</div>
+        </div>
+      </div>
+      <p class="note-text" id="pctNote"></p>
+    </div>
 
-<footer class="page-footer">
-  <a href="https://www.ortuttnauer.com">ortuttnauer.com</a>
+    <div class="card" id="noPctCard" style="display:none; color:#2e3d5e; font-size:13px">
+      Percentile data unavailable for this journal and year.
+    </div>
+
+    <!-- OpenAlex breakdown -->
+    <div class="card pct-card" id="oaPctCard" style="display:none">
+      <div class="card-label" id="oaPctLabel"></div>
+      <div style="display:flex; align-items:flex-end; gap:4px; margin-bottom:4px">
+        <span class="big-pct" id="oaPctNum" style="color:#2a9a70"></span>
+        <span class="pct-suffix">th percentile</span>
+      </div>
+      <p class="pct-desc" id="oaPctDesc"></p>
+      <div class="bar-track">
+        <div class="bar-marker" id="oaBarMarker" style="box-shadow: 0 0 0 2px #2a9a70, 0 2px 6px rgba(0,0,0,0.15)"></div>
+      </div>
+      <div class="bar-ticks">
+        <span>0</span><span>25</span><span>50</span><span>75</span><span>100</span>
+      </div>
+      <p class="note-text" id="oaPctNote"></p>
+    </div>
+
+  </div><!-- /results -->
+
+</main>
+
+<footer style="text-align:center; padding: 24px; font-size: 12px; color: #8a96b0; border-top: 1px solid #dde2ec; background: #ffffff;">
+  Written by <a href="https://www.ortuttnauer.com" target="_blank" style="color: #2a6dd9; text-decoration: none;">Or Tuttnauer</a>, assisted by Claude
 </footer>
 
 <script>
-// ── Article data ────────────────────────────────────────────────────────────
-const ARTICLES = [
-  {
-    authors: "Itzkovitch-Malka, R., L. Harsgor and O. Tuttnauer",
-    year: 2025,
-    title: "The effect of formateur expectations on vote choice: A comparative analysis",
-    journal: "European Journal of Political Research",
-    note: "accepted for publication",
-    doi: "10.1017/S1475676525100236",
-    issn: "0304-4130",
-    jcr: "IF 4.2 · 22/325 · Political Science",
-    quartile: "Q1",
-  },
-  {
-    authors: "Tuttnauer, O. and G. Rahat",
-    year: 2025,
-    title: "Institutional Personalism and Personalised Behaviour: Electoral Systems, Candidate Selection Methods, and Politicians' Campaign Strategy",
-    journal: "Electoral Studies",
-    vol: "94: 102909",
-    doi: "10.1016/j.electstud.2025.102909",
-    issn: "0261-3794",
-    jcr: "IF 2.3 · 80/325 · Political Science",
-    quartile: "Q1",
-  },
-  {
-    authors: "Debus, M. and O. Tuttnauer",
-    year: 2024,
-    title: "Negative Campaign Statements, Coalition Heterogeneity, and the Support for Government Parties",
-    journal: "Electoral Studies",
-    vol: "87: 102738",
-    doi: "10.1016/j.electstud.2023.102738",
-    issn: "0261-3794",
-    jcr: "IF 2.9 · 50/318 · Political Science",
-    quartile: "Q1",
-  },
-  {
-    authors: "Tuttnauer, O. and R.Y. Hazan",
-    year: 2024,
-    title: "Government-Opposition Relations and the Vote of No-Confidence",
-    journal: "Political Studies",
-    vol: "72(3): 984–1004",
-    doi: "10.1177/00323217231168765",
-    issn: "0032-3217",
-    jcr: "IF 2.5 · 64/317 · Political Science",
-    quartile: "Q1",
-  },
-  {
-    authors: "Harsgor, L., R. Itzkovitch-Malka and O. Tuttnauer",
-    year: 2023,
-    title: "Do Coalition and Formateur Expectations Affect Vote Switching?",
-    journal: "European Political Science Review",
-    vol: "15(1): 96–115",
-    doi: "10.1017/S1755773922000455",
-    issn: "1755-7739",
-    jcr: "IF 2.7 · 56/317 · Political Science",
-    quartile: "Q1",
-  },
-  {
-    authors: "Tuttnauer, O. and G. Rahat",
-    year: 2023,
-    title: "Servants of Two (Or More) Masters: Accounting for the Complexity of Intraparty Candidate Selection Methods",
-    journal: "Party Politics",
-    vol: "29(1): 185–192",
-    doi: "10.1177/13540688211060658",
-    issn: "1354-0688",
-    jcr: "IF 2.4 · 70/317 · Political Science",
-    quartile: "Q1",
-  },
-  {
-    authors: "Oshri, O., L. Harsgor, R. Itzkovitch-Malka and O. Tuttnauer",
-    year: 2023,
-    title: "Risk Aversion and the Gender Gap in the Vote for Populist Radical Right Parties",
-    journal: "American Journal of Political Science",
-    vol: "67(3): 499–828",
-    doi: "10.1111/ajps.12696",
-    issn: "0092-5853",
-    jcr: "IF 4.503 · 21/187 · Political Science",
-    quartile: "Q1",
-  },
-  {
-    authors: "Tuttnauer, O. and S. Wegmann",
-    year: 2022,
-    title: "Voting for Votes: Opposition Parties' Legislative Activity and Electoral Outcomes",
-    journal: "American Political Science Review",
-    vol: "116(4): 1357–1374",
-    doi: "10.1017/S0003055422000338",
-    issn: "0003-0554",
-    jcr: "IF 8.048 · 4/187 · Political Science",
-    quartile: "Q1",
-  },
-  {
-    authors: "Louwerse, T., U. Sieberer, O. Tuttnauer and R.B. Andeweg",
-    year: 2021,
-    title: "Opposition in Times of Crisis: Covid-19 in Parliamentary Debates",
-    journal: "West European Politics",
-    vol: "44(5–6): 1025–1051",
-    doi: "10.1080/01402382.2021.1886519",
-    issn: "0140-2382",
-    jcr: "IF 3.960 · 30/183 · Political Science",
-    quartile: "Q1",
-  },
-  {
-    authors: "Kedar, O., L. Harsgor and O. Tuttnauer",
-    year: 2021,
-    title: "Party-System Fragmentation: A New Look at an Old Question",
-    journal: "The Journal of Politics",
-    vol: "83(2): 439–452",
-    doi: "10.1086/709835",
-    issn: "0022-3816",
-    jcr: "IF 2.658 · 29/181 · Political Science",
-    quartile: "Q1",
-  },
-  {
-    authors: "Tuttnauer, O.",
-    year: 2020,
-    title: "Government-Opposition Relations in a Fragmented, Personalized, and Multidimensional Setting: The Case of Israel",
-    journal: "Party Politics",
-    vol: "26(2): 203–214",
-    doi: "10.1177/1354068818761198",
-    issn: "1354-0688",
-    jcr: "IF 2.817 · 26/181 · Political Science",
-    quartile: "Q1",
-  },
-  {
-    authors: "Tuttnauer, O. and A. Friedman",
-    year: 2020,
-    title: "Unnatural Partners: Coalescence in Israeli Central and Local Government",
-    journal: "Journal of Elections, Public Opinion and Parties",
-    vol: "30(3): 358–378",
-    doi: "10.1080/17457289.2020.1727483",
-    issn: "1745-7289",
-    jcr: "SJR 2018: 0.901 · Sociology and Political Science",
-    quartile: "ESCI",
-  },
-  {
-    authors: "Tuttnauer, O.",
-    year: 2018,
-    title: "If You Can Beat Them, Confront Them: Party-Level Analysis of Opposition Behavior in European National Parliaments",
-    journal: "European Union Politics",
-    vol: "19(2): 278–298",
-    doi: "10.1177/1465116517752870",
-    issn: "1465-1165",
-    jcr: "IF 2.600 · 30/176 · Political Science",
-    quartile: "Q1",
-  },
-  {
-    authors: "Tuttnauer, O.",
-    year: 2014,
-    title: "Comparative Framework for Parliamentary Opposition Analysis: Israel as a Case Study",
-    journal: "Politika",
-    vol: "23: 73–104",
-    doi: null,
-    issn: null,
-    jcr: null,
-    quartile: null,
-    note: "in Hebrew",
-  },
-];
+// ── Config ─────────────────────────────────────────────────────────────────
 
-// ── Render articles skeleton ─────────────────────────────────────────────────
-function renderArticles() {
-  const list = document.getElementById('articlesList');
-  list.innerHTML = ARTICLES.map((a, i) => {
-    const titleHtml = a.doi
-      ? `<a href="https://doi.org/${a.doi}" target="_blank">${a.title}</a><span id="year-${i}" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);font-weight:400;margin-left:6px"></span>`
-      : `${a.title}<span id="year-${i}" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);font-weight:400;margin-left:6px"></span>`;
-
-    const volStr = a.vol ? ` ${a.vol}` : '';
-    const noteStr = a.note ? ` <span style="font-style:italic;color:var(--faint)">(${a.note})</span>` : '';
-
-    const badgeHtml = a.quartile
-      ? `<span class="badge badge-${a.quartile === 'Q1' ? 'q1' : a.quartile === 'Q2' ? 'q2' : 'esci'}">${a.quartile}</span>`
-      : '';
-    const jcrHtml = a.jcr ? `<span class="badge-jcr">${a.jcr}</span>` : '';
-
-    const citHtml = a.doi
-      ? `<div class="cit-widget" id="cit-${i}">
-           <div class="cit-loading">…</div>
-         </div>`
-      : `<div class="cit-widget"></div>`;
-
-    return `<div class="article">
-      <div class="article-main">
-        <div class="article-title">${titleHtml}</div>
-        <div class="article-meta">${a.authors}. <em>${a.journal}</em>${volStr}.${noteStr}</div>
-        <div class="article-badges">${badgeHtml}${jcrHtml}</div>
-      </div>
-      ${citHtml}
-    </div>`;
-  }).join('');
+// ── Settings ───────────────────────────────────────────────────────────────
+function toggleSettings() {
+  const panel = document.getElementById('settingsPanel');
+  panel.classList.toggle('open');
 }
 
-// ── CrossRef: fetch citation count AND publication year ────────────────────
-async function fetchCrossRefData(doi) {
+function saveKey() {
+}
+
+
+// ── Utilities ──────────────────────────────────────────────────────────────
+function extractDOI(raw) {
+  const m = raw.trim().match(/10\.\d{4,}\/[^\s]+/);
+  if (!m) return null;
+  return m[0].replace(/[.,;:\)}\]>'"]+$/, '');
+}
+
+function setLoading(msg) {
+  document.getElementById('loadingBox').style.display = 'block';
+  document.getElementById('loadingText').textContent = msg;
+  document.getElementById('errorBox').style.display = 'none';
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('lookupBtn').disabled = true;
+  document.getElementById('lookupBtn').textContent = 'Working…';
+}
+
+function setError(msg) {
+  document.getElementById('loadingBox').style.display = 'none';
+  document.getElementById('errorBox').style.display = 'block';
+  document.getElementById('errorBox').textContent = '⚠ ' + msg;
+  document.getElementById('lookupBtn').disabled = false;
+  document.getElementById('lookupBtn').textContent = 'Look up';
+}
+
+function pctColor(p) {
+  if (p >= 90) return '#e07c44';
+  if (p >= 75) return '#c9a843';
+  if (p >= 50) return '#5a9fd4';
+  return '#4a6090';
+}
+
+
+// ── OpenAlex journal stats ────────────────────────────────────────────────────
+// ── Shared badge helper ───────────────────────────────────────────────────────
+function pctBadge(pct) {
+  if (pct >= 99) return ' <span style="font-size:9px;background:#e8f7ef;color:#2a7a50;border:1px solid #b8e0cc;border-radius:3px;padding:1px 5px">top 1%</span>';
+  if (pct >= 90) return ' <span style="font-size:9px;background:#e8f0f8;color:#1a4a6e;border:1px solid #b3cfe8;border-radius:3px;padding:1px 5px">top 10%</span>';
+  if (pct >= 75) return ' <span style="font-size:9px;background:#f4f6f9;color:#4a5a7a;border:1px solid #dde2ec;border-radius:3px;padding:1px 5px">top 25%</span>';
+  return '';
+}
+// ── CrossRef ───────────────────────────────────────────────────────────────
+async function fetchCrossRef(doi) {
   const r = await fetch(`https://api.crossref.org/works/${encodeURIComponent(doi)}`);
-  if (!r.ok) throw new Error('not found');
-  const msg = (await r.json()).message;
-  const cit  = msg['is-referenced-by-count'] ?? 0;
-  const yObj = msg.published || msg['published-print'] || msg['published-online'];
-  const year = yObj?.['date-parts']?.[0]?.[0] ?? null;
-  return { cit, year };
+  if (!r.ok) throw new Error(`Article not found in CrossRef (${r.status}). Check the DOI.`);
+  return (await r.json()).message;
 }
 
-async function fetchPercentile(issn, year, cit) {
+async function fetchOpenAlex(doi) {
+  const fields = 'cited_by_count,citation_normalized_percentile,primary_topic,id';
+  const r = await fetch(`https://api.openalex.org/works/https://doi.org/${encodeURIComponent(doi)}?select=${fields}`);
+  if (!r.ok) throw new Error(`OpenAlex: ${r.status}`);
+  const d = await r.json();
+  const pct = d.citation_normalized_percentile;
+  const oaId = d.id ? d.id.replace('https://openalex.org/', '') : null;
+  return {
+    citations:   d.cited_by_count ?? 0,
+    percentile:  pct ? Math.round(pct.value * 100) : null,
+    top1:        pct?.is_in_top_1_percent ?? false,
+    top10:       pct?.is_in_top_10_percent ?? false,
+    subfield:    d.primary_topic?.subfield?.display_name ?? null,
+    subfieldId:  d.primary_topic?.subfield?.id ?? null,
+    oaUrl:       oaId ? `https://openalex.org/${oaId}` : null,
+  };
+}
+
+async function fetchJournalStats(issn, year, targetCit) {
   const all = [];
+  let total = 0;
   for (let offset = 0; offset < 2000; offset += 1000) {
     try {
       const url = `https://api.crossref.org/works?filter=issn:${issn},` +
@@ -610,110 +538,172 @@ async function fetchPercentile(issn, year, cit) {
       const r = await fetch(url);
       if (!r.ok) break;
       const d = await r.json();
+      total = d.message['total-results'];
       const items = d.message.items || [];
       items.forEach(it => all.push(it['is-referenced-by-count'] ?? 0));
       if (items.length < 1000) break;
     } catch { break; }
   }
   if (!all.length) return null;
+
   const sorted = [...all].sort((a, b) => a - b);
   const n = sorted.length;
-  const below = sorted.filter(c => c < cit).length;
-  const equal = sorted.filter(c => c === cit).length;
-  return Math.round(((below + equal * 0.5) / n) * 100);
+  const below = sorted.filter(c => c < targetCit).length;
+  const equal = sorted.filter(c => c === targetCit).length;
+  const percentile = Math.round(((below + equal * 0.5) / n) * 100);
+  const mean = all.reduce((s, v) => s + v, 0) / n;
+  const median = n % 2 === 0
+    ? (sorted[n/2-1] + sorted[n/2]) / 2
+    : sorted[Math.floor(n/2)];
+  const p90 = sorted[Math.floor(n * 0.9)];
+  return { percentile, mean: +mean.toFixed(1), median: +median.toFixed(1), p90, sampleSize: n, total };
 }
 
-function pctColor(p) {
-  if (p >= 90) return '#e07c44';
-  if (p >= 75) return '#2a6dd9';
-  if (p >= 50) return '#2a7a50';
-  return '#8a96b0';
-}
 
-function updateCitWidget(i, cit, year, pct) {
-  const el = document.getElementById(`cit-${i}`);
-  if (!el) return;
-  // Put year prominently after title
-  const yearEl = document.getElementById(`year-${i}`);
-  if (yearEl && year) yearEl.textContent = `(${year})`;
-  const pctHtml = pct !== null
-    ? `<div class="cit-pct" style="color:${pctColor(pct)}">${pct}th pct.</div>
-       <div class="cit-bar-wrap"><div class="cit-bar-fill" style="width:${pct}%;background:${pctColor(pct)}"></div></div>`
-    : '';
-  el.innerHTML = `
-    <div class="cit-count">${cit}</div>
-    <div class="cit-label">citations</div>
-    ${pctHtml}`;
-  el.classList.add('fade-in');
-}
 
-async function loadAllCitations() {
-  for (let i = 0; i < ARTICLES.length; i++) {
-    const a = ARTICLES[i];
-    if (!a.doi) continue;
-    try {
-      // Use CrossRef year (not hardcoded) — keeps percentile consistent with Citation Compare
-      const { cit, year } = await fetchCrossRefData(a.doi);
-      const pct = (a.issn && year) ? await fetchPercentile(a.issn, year, cit) : null;
-      updateCitWidget(i, cit, year, pct);
-    } catch {
-      const el = document.getElementById(`cit-${i}`);
-      if (el) el.innerHTML = `<div class="cit-label" style="color:var(--faint)">unavailable</div>`;
-    }
-    // small delay to avoid hammering CrossRef
-    await new Promise(r => setTimeout(r, 250));
+// ── Main lookup ────────────────────────────────────────────────────────────
+async function lookup() {
+  const raw = document.getElementById('doiInput').value;
+  const doi = extractDOI(raw);
+  if (!doi) {
+    setError('No DOI found. Paste a DOI like 10.1017/S0003055422000338 or a URL containing one.');
+    return;
   }
-}
 
-// ── Semantic Scholar H-index (via known paper DOI → author lookup) ───────────
-async function loadHIndex() {
+  setLoading('→ Fetching article metadata from CrossRef…');
+
   try {
-    // Step 1: look up APSR paper to get Or's Semantic Scholar author ID
-    const paperR = await fetch(
-      'https://api.semanticscholar.org/graph/v1/paper/DOI:10.1017/S0003055422000338' +
-      '?fields=authors',
-      { headers: { 'Accept': 'application/json' } }
-    );
-    if (!paperR.ok) throw new Error('paper lookup failed');
-    const paperD = await paperR.json();
-    const authors = paperD.authors || [];
-    // find Tuttnauer among co-authors
-    const authorEntry = authors.find(a =>
-      a.name && a.name.toLowerCase().includes('tuttnauer')
-    );
-    if (!authorEntry?.authorId) throw new Error('author not found in paper');
+    // Step 1: CrossRef metadata
+    const w = await fetchCrossRef(doi);
+    const title   = w.title?.[0] || 'Unknown title';
+    const authors = (w.author || [])
+      .map(a => a.name || [a.given, a.family].filter(Boolean).join(' '))
+      .filter(Boolean);
+    const journal = (w['container-title'] || [])[0] || '';
+    const year    = (w.published || w['published-print'] || w['published-online'])
+                      ?.['date-parts']?.[0]?.[0];
+    const xrefCit = w['is-referenced-by-count'] ?? 0;
+    const issn    = (w.ISSN || [])[0];
 
-    // Step 2: fetch author details
-    const authR = await fetch(
-      `https://api.semanticscholar.org/graph/v1/author/${authorEntry.authorId}` +
-      `?fields=name,hIndex,citationCount`,
-      { headers: { 'Accept': 'application/json' } }
-    );
-    if (!authR.ok) throw new Error('author fetch failed');
-    const authD = await authR.json();
+    // Render paper card
+    document.getElementById('paperTitle').textContent = title;
+    document.getElementById('paperAuthors').textContent =
+      authors.length > 0
+        ? authors.slice(0, 7).join(' · ') + (authors.length > 7 ? ` · +${authors.length - 7} more` : '')
+        : 'Authors unavailable';
+    document.getElementById('paperMeta').innerHTML =
+      [journal, year].filter(Boolean).join(' · ') +
+      ` · <span class="doi">${doi}</span>`;
 
-    if (authD.hIndex == null) throw new Error('no hIndex');
+    // Citation counts
+    document.getElementById('xrefNum').textContent = xrefCit;
 
-    document.getElementById('hIndexVal').textContent = authD.hIndex;
-    document.getElementById('hIndexVal').classList.remove('loading-pill');
-    document.getElementById('citTotalVal').textContent = (authD.citationCount || 0).toLocaleString();
-    document.getElementById('citTotalVal').classList.remove('loading-pill');
+    // Show results early
+    document.getElementById('oaNum').textContent = '—';
+    document.getElementById('oaSub').textContent = 'fetching…';
+    document.getElementById('loadingBox').style.display = 'none';
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('pctCard').style.display = 'none';
+    document.getElementById('noPctCard').style.display = 'none';
+    document.getElementById('lookupBtn').disabled = false;
+    document.getElementById('lookupBtn').textContent = 'Look up';
 
-  } catch {
-    // Fallback: link directly to Google Scholar profile
-    const gs = 'https://scholar.google.com/citations?user=W1PkZGIAAAAJ';
-    const linkHtml = `<a href="${gs}" target="_blank" style="font-size:11px;color:var(--accent);font-family:'DM Sans',sans-serif;text-decoration:none">↗</a>`;
-    document.getElementById('hIndexVal').innerHTML = linkHtml;
-    document.getElementById('hIndexVal').classList.remove('loading-pill');
-    document.getElementById('citTotalVal').innerHTML = linkHtml;
-    document.getElementById('citTotalVal').classList.remove('loading-pill');
+    // Step 2: OpenAlex citation count — always runs, independent of ISSN/year
+    fetchOpenAlex(doi).then(d => {
+      document.getElementById('oaNum').textContent = d.citations;
+      document.getElementById('oaSub').textContent = 'citations recorded';
+      // Inline card extras
+      const oaExtra = document.getElementById('oaExtra');
+      if (oaExtra) {
+        let html = '';
+        if (d.percentile !== null) {
+          const badge = pctBadge(d.percentile);
+          html += `<div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2a9a70;margin-top:6px">${d.percentile}th pct. by subfield${badge}</div>`;
+        }
+        if (d.subfield) {
+          html += `<div style="font-size:11px;color:#8a96b0;margin-top:3px">${d.subfield}</div>`;
+        }
+        if (d.oaUrl) {
+          html += `<div style="margin-top:6px"><a href="${d.oaUrl}" target="_blank" style="font-size:11px;color:#2a6dd9;text-decoration:none;letter-spacing:0.04em">View on OpenAlex ↗</a></div>`;
+        }
+        oaExtra.innerHTML = html;
+      }
+      // OA breakdown card — use OpenAlex's own pre-computed percentile directly
+      if (d.percentile !== null) {
+        const pct = d.percentile;
+        document.getElementById('oaPctNum').textContent = pct;
+        document.getElementById('oaPctLabel').innerHTML =
+          `OpenAlex citation percentile · ${d.subfield || 'subfield'} · ${year}`;
+        document.getElementById('oaPctDesc').textContent = pct >= 75
+          ? `This article ranks higher than ${pct}% of articles in the same subfield and year (OpenAlex pre-computed).`
+          : pct >= 50
+          ? 'This article is above the median for its subfield and year (OpenAlex pre-computed).'
+          : 'This article is below the median for its subfield and year (OpenAlex pre-computed).';
+        document.getElementById('oaBarMarker').style.left = Math.min(97, Math.max(3, pct)) + '%';
+        document.getElementById('oaPctNote').textContent =
+          `* Pre-computed by OpenAlex. Normalised by subfield (${d.subfield || ''}), publication year, and work type.`;
+        document.getElementById('oaPctCard').style.display = 'block';
+      }
+    }).catch(() => {
+      document.getElementById('oaNum').textContent = '—';
+      document.getElementById('oaSub').textContent = 'unavailable';
+    });
+
+    // Step 3: Journal percentile
+    if (issn && year) {
+      document.getElementById('loadingBox').style.display = 'block';
+      document.getElementById('loadingText').textContent =
+        `→ Sampling citation distribution: ${journal || 'journal'} · ${year}…`;
+      document.getElementById('lookupBtn').disabled = true;
+
+      const stats = await fetchJournalStats(issn, year, xrefCit);
+
+      // Percentile
+      if (stats) {
+        const col = pctColor(stats.percentile);
+        document.getElementById('pctNum').textContent = stats.percentile;
+        document.getElementById('pctNum').style.color = col;
+        document.getElementById('pctLabel').innerHTML =
+          `Citation percentile · ${journal} · ${year} · ` +
+          `${stats.sampleSize.toLocaleString()}${stats.total > stats.sampleSize ? ' of ' + stats.total.toLocaleString() : ''} articles`;
+        document.getElementById('pctDesc').textContent = stats.percentile >= 75
+          ? `This article ranks higher than ${stats.percentile}% of articles from the same journal and year (CrossRef data).`
+          : stats.percentile >= 50
+          ? 'This article is above the median for its journal and year (CrossRef data).'
+          : 'This article is below the median for its journal and year (CrossRef data).';
+        document.getElementById('barMarker').style.left =
+          Math.min(97, Math.max(3, stats.percentile)) + '%';
+        document.getElementById('statThis').textContent   = xrefCit;
+        document.getElementById('statMedian').textContent = stats.median;
+        document.getElementById('statMean').textContent   = stats.mean;
+        document.getElementById('statP90').textContent    = stats.p90;
+        document.getElementById('pctNote').textContent =
+          '* Percentile computed from CrossRef citation counts across all articles in this journal and year.';
+        document.getElementById('pctCard').style.display = 'block';
+        // Also populate CrossRef card inline — matching OpenAlex card structure
+        const xrefExtra = document.getElementById('xrefExtra');
+        if (xrefExtra) {
+          const badge = pctBadge(stats.percentile);
+          xrefExtra.innerHTML =
+            `<div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#4c8ef5;margin-top:6px">${stats.percentile}th pct. in journal${badge}</div>` +
+            `<div style="font-size:11px;color:#8a96b0;margin-top:3px">${journal} · ${year}</div>` +
+            `<div style="margin-top:6px"><a href="https://doi.org/${doi}" target="_blank" style="font-size:11px;color:#2a6dd9;text-decoration:none;letter-spacing:0.04em">View on CrossRef ↗</a></div>`;
+        }
+      } else {
+        document.getElementById('noPctCard').style.display = 'block';
+      }
+
+    } else {
+      document.getElementById('noPctCard').style.display = 'block';
+    }
+
+    document.getElementById('loadingBox').style.display = 'none';
+    document.getElementById('lookupBtn').disabled = false;
+    document.getElementById('lookupBtn').textContent = 'Look up';
+  } catch(e) {
+    setError(e.message || 'An unexpected error occurred.');
   }
 }
-
-// ── Init ─────────────────────────────────────────────────────────────────────
-renderArticles();
-loadHIndex();
-loadAllCitations();
 </script>
 </body>
 </html>
