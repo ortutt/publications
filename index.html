@@ -206,20 +206,63 @@ body {
   padding: 3px 0;
 }
 
+.compare-link {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  font-family: 'IBM Plex Mono', monospace;
+  padding: 3px 0;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+.compare-link:hover { opacity: 1; }
+
 /* ── Citation widget ── */
 .cit-widget {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  min-width: 90px;
+  min-width: 190px;
   gap: 4px;
+}
+
+.cit-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+}
+
+.cit-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+.cit-source-label {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--faint);
 }
 
 .cit-count {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 400;
   color: var(--accent);
+  line-height: 1;
+}
+
+.cit-count-oa {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 24px;
+  font-weight: 400;
+  color: #2a9a70;
   line-height: 1;
 }
 
@@ -238,7 +281,7 @@ body {
 }
 
 .cit-bar-wrap {
-  width: 80px;
+  width: 70px;
   height: 3px;
   background: var(--border);
   border-radius: 2px;
@@ -339,7 +382,7 @@ body {
   </header>
 
   <div class="note-banner">
-    Citation counts and percentiles are fetched live from <a href="https://www.crossref.org" target="_blank">CrossRef</a>. Percentile ranks articles within the same journal and publication year. H-index and total citations from <a href="https://www.semanticscholar.org" target="_blank">Semantic Scholar</a>.
+    Citation counts are fetched live from <a href="https://www.crossref.org" target="_blank">CrossRef</a> and <a href="https://openalex.org" target="_blank">OpenAlex</a>. CrossRef percentiles rank each article within its journal and publication year. OpenAlex percentiles are normalized by subfield and publication year. H-index and total citations from <a href="https://www.semanticscholar.org" target="_blank">Semantic Scholar</a>.
   </div>
 
   <!-- Peer-reviewed articles -->
@@ -571,6 +614,9 @@ function renderArticles() {
       ? `<span class="badge badge-${a.quartile === 'Q1' ? 'q1' : a.quartile === 'Q2' ? 'q2' : 'esci'}">${a.quartile}</span>`
       : '';
     const jcrHtml = a.jcr ? `<span class="badge-jcr">${a.jcr}</span>` : '';
+    const compareHtml = a.doi
+      ? `<a href="https://ortutt.github.io/citation-compare/?doi=${encodeURIComponent(a.doi)}" target="_blank" class="compare-link">Compare citations ↗</a>`
+      : '';
 
     const citHtml = a.doi
       ? `<div class="cit-widget" id="cit-${i}">
@@ -582,7 +628,7 @@ function renderArticles() {
       <div class="article-main">
         <div class="article-title">${titleHtml}</div>
         <div class="article-meta">${a.authors}. <em>${a.journal}</em>${volStr}.${noteStr}</div>
-        <div class="article-badges">${badgeHtml}${jcrHtml}</div>
+        <div class="article-badges">${badgeHtml}${jcrHtml}${compareHtml}</div>
       </div>
       ${citHtml}
     </div>`;
@@ -623,6 +669,18 @@ async function fetchPercentile(issn, year, cit) {
   return Math.round(((below + equal * 0.5) / n) * 100);
 }
 
+async function fetchOpenAlexData(doi) {
+  const fields = 'cited_by_count,citation_normalized_percentile,primary_topic';
+  const r = await fetch(`https://api.openalex.org/works/https://doi.org/${encodeURIComponent(doi)}?select=${fields}`);
+  if (!r.ok) throw new Error('OA not found');
+  const d = await r.json();
+  const pct = d.citation_normalized_percentile;
+  return {
+    cit:        d.cited_by_count ?? 0,
+    percentile: pct ? Math.round(pct.value * 100) : null,
+  };
+}
+
 function pctColor(p) {
   if (p >= 90) return '#e07c44';
   if (p >= 75) return '#2a6dd9';
@@ -630,20 +688,44 @@ function pctColor(p) {
   return '#8a96b0';
 }
 
-function updateCitWidget(i, cit, year, pct) {
+function updateCitWidget(i, xref, year, xrefPct, oaCit, oaPct) {
   const el = document.getElementById(`cit-${i}`);
   if (!el) return;
-  // Put year prominently after title
   const yearEl = document.getElementById(`year-${i}`);
   if (yearEl && year) yearEl.textContent = `(${year})`;
-  const pctHtml = pct !== null
-    ? `<div class="cit-pct" style="color:${pctColor(pct)}">${pct}th pct.</div>
-       <div class="cit-bar-wrap"><div class="cit-bar-fill" style="width:${pct}%;background:${pctColor(pct)}"></div></div>`
+
+  const xrefPctHtml = xrefPct !== null
+    ? `<div class="cit-pct" style="color:${pctColor(xrefPct)}">${xrefPct}th pct.</div>
+       <div class="cit-bar-wrap"><div class="cit-bar-fill" style="width:${xrefPct}%;background:${pctColor(xrefPct)}"></div></div>`
     : '';
+
+  const oaPctHtml = oaPct !== null
+    ? `<div class="cit-pct" style="color:${pctColor(oaPct)}">${oaPct}th pct.</div>
+       <div class="cit-bar-wrap"><div class="cit-bar-fill" style="width:${oaPct}%;background:${pctColor(oaPct)}"></div></div>`
+    : '';
+
+  const oaHtml = oaCit !== null
+    ? `<div class="cit-col">
+         <div class="cit-source-label">OpenAlex</div>
+         <div class="cit-count-oa">${oaCit}</div>
+         <div class="cit-label">citations</div>
+         ${oaPctHtml}
+       </div>`
+    : `<div class="cit-col">
+         <div class="cit-source-label">OpenAlex</div>
+         <div class="cit-label" style="padding-top:4px">—</div>
+       </div>`;
+
   el.innerHTML = `
-    <div class="cit-count">${cit}</div>
-    <div class="cit-label">citations</div>
-    ${pctHtml}`;
+    <div class="cit-cols">
+      <div class="cit-col">
+        <div class="cit-source-label">CrossRef</div>
+        <div class="cit-count">${xref}</div>
+        <div class="cit-label">citations</div>
+        ${xrefPctHtml}
+      </div>
+      ${oaHtml}
+    </div>`;
   el.classList.add('fade-in');
 }
 
@@ -652,15 +734,24 @@ async function loadAllCitations() {
     const a = ARTICLES[i];
     if (!a.doi) continue;
     try {
-      // Use CrossRef year (not hardcoded) — keeps percentile consistent with Citation Compare
-      const { cit, year } = await fetchCrossRefData(a.doi);
-      const pct = (a.issn && year) ? await fetchPercentile(a.issn, year, cit) : null;
-      updateCitWidget(i, cit, year, pct);
+      // Fetch CrossRef and OpenAlex in parallel
+      const [xrefData, oaData] = await Promise.allSettled([
+        fetchCrossRefData(a.doi),
+        fetchOpenAlexData(a.doi),
+      ]);
+      const { cit, year } = xrefData.status === 'fulfilled' ? xrefData.value : { cit: null, year: null };
+      const xrefPct = (cit !== null && a.issn && year) ? await fetchPercentile(a.issn, year, cit) : null;
+      const oaCit = oaData.status === 'fulfilled' ? oaData.value.cit : null;
+      const oaPct = oaData.status === 'fulfilled' ? oaData.value.percentile : null;
+      if (cit !== null) updateCitWidget(i, cit, year, xrefPct, oaCit, oaPct);
+      else {
+        const el = document.getElementById(`cit-${i}`);
+        if (el) el.innerHTML = `<div class="cit-label" style="color:var(--faint)">unavailable</div>`;
+      }
     } catch {
       const el = document.getElementById(`cit-${i}`);
       if (el) el.innerHTML = `<div class="cit-label" style="color:var(--faint)">unavailable</div>`;
     }
-    // small delay to avoid hammering CrossRef
     await new Promise(r => setTimeout(r, 250));
   }
 }
