@@ -208,6 +208,18 @@ body {
   background: var(--gold);
 }
 
+.page-heading { margin-bottom: 28px; }
+
+.subsection-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 21px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
 /* ── Article entries ── */
 .article {
   display: grid;
@@ -457,9 +469,11 @@ body {
   </header>
 
 
+  <h1 class="section-title page-heading">Publications</h1>
+
   <!-- Peer-reviewed articles -->
   <section class="section">
-    <h2 class="section-title">Articles in Refereed Journals</h2>
+    <h2 class="subsection-title">Articles in Refereed Journals</h2>
     <div class="note-banner">
     Citation counts are fetched live from <a href="https://www.crossref.org" target="_blank">CrossRef</a> and <a href="https://openalex.org" target="_blank">OpenAlex</a>. CrossRef percentiles rank each article within its journal and publication year. OpenAlex percentiles are normalized by subfield and publication year. H-index and total citations from <a href="https://www.semanticscholar.org" target="_blank">Semantic Scholar</a>.
   </div>
@@ -468,7 +482,7 @@ body {
 
   <!-- Monographs -->
   <section class="section">
-    <h2 class="section-title">Monographs</h2>
+    <h2 class="subsection-title">Monographs</h2>
     <div class="pub-item">
       Kenig, O., G. Rahat, M. Philippov and <strong>O. Tuttnauer.</strong> 2014. <em>Giving Less for More: Members of Political Parties in Israel</em>. Jerusalem: Israel Democracy Institute. (in Hebrew)
     </div>
@@ -479,7 +493,7 @@ body {
 
   <!-- Book chapters -->
   <section class="section">
-    <h2 class="section-title">Chapters in Edited Books</h2>
+    <h2 class="subsection-title">Chapters in Edited Books</h2>
     <div class="pub-item">
       <strong>Tuttnauer, O.</strong> <em>Forthcoming.</em> "Government-opposition relations in the parliamentary arena and electoral campaigns," in M. Debus, Z. Somer-Topcu and M. Tavits, <em>Going Negative in Europe</em>. Oxford University Press.
     </div>
