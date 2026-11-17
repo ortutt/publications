@@ -45,10 +45,35 @@ body {
 
 /* ── Header ── */
 .site-header {
-  padding: 48px 0 36px;
+  padding: 48px 0 0;
   border-bottom: 1px solid var(--border);
   margin-bottom: 40px;
 }
+
+.site-header h1 a { color: inherit; text-decoration: none; transition: color 0.15s; }
+.site-header h1 a:hover { color: var(--accent); }
+
+/* ── Navigation (shared with ortutt.github.io) ── */
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 26px;
+}
+.site-nav a {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--muted);
+  padding: 10px 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.15s, border-color 0.15s;
+}
+.site-nav a:hover { color: var(--accent); }
+.site-nav a[aria-current="page"] { color: var(--accent); border-bottom-color: var(--accent); }
 
 .site-header h1 {
   font-family: 'Cormorant Garamond', serif;
@@ -70,6 +95,7 @@ body {
   flex-wrap: wrap;
   gap: 10px;
   align-items: center;
+  margin-bottom: 28px;
 }
 
 .profile-link {
@@ -355,7 +381,7 @@ body {
 
   <!-- Header -->
   <header class="site-header">
-    <h1>Or Tuttnauer</h1>
+    <h1><a href="/">Or Tuttnauer</a></h1>
     <p class="subtitle">Postdoctoral Fellow · Mannheim Centre for European Social Research (MZES), University of Mannheim</p>
     <div class="profile-links">
       <a class="profile-link" href="https://orcid.org/0000-0001-7338-3717" target="_blank">
@@ -379,6 +405,16 @@ body {
         <span class="metric-pill-val loading-pill" id="citTotalVal">…</span>
       </span>
     </div>
+    <nav class="site-nav" aria-label="Main">
+      <a href="/">Home</a>
+      <a href="/about/">About</a>
+      <a href="/research/">Research</a>
+      <a href="/publications/" aria-current="page">Publications</a>
+      <a href="/teaching/">Teaching</a>
+      <a href="/cv/">CV</a>
+      <a href="/web-apps/">Web Apps</a>
+      <a href="/contact/">Contact</a>
+    </nav>
   </header>
 
   <div class="note-banner">
